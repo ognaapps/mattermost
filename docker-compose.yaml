@@ -41,7 +41,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mattermost.rule=Host(`mattermost.${OGNA_USER}.${OGNA_HOST}`)"
-      - "traefik.http.routers.mattermost.entrypoints=web"
+      - "traefik.http.routers.mattermost.entrypoints=websecure"
       - "traefik.http.services.mattermost.loadbalancer.server.port=8065"
       - "traefik.docker.network=ogna"
 
