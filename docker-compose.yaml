@@ -38,7 +38,12 @@ services:
     networks:
       - ogna
       - mattermost_net
-    # No need for "ports" if your reverse proxy connects via "ogna"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mattermost.rule=Host(`mattermost.${OGNA_USER}.${OGNA_HOST}`)"
+      - "traefik.http.routers.mattermost.entrypoints=web"
+      - "traefik.http.services.mattermost.loadbalancer.server.port=8065"
+      - "traefik.docker.network=ogna"
 
 networks:
   mattermost_net:
