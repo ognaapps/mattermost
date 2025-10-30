@@ -1,3 +1,17 @@
+networks:
+  mattermost_net:
+  ogna:
+    external: true
+
+volumes:
+  mattermost_app_data:
+  postgres_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /mnt/volume-db/mattermost/postgress
+      o: bind
+
 services:
   postgres_mattermost:
     image: postgres:15
@@ -8,7 +22,7 @@ services:
     env_file:
       - .env
     volumes:
-      - mattermost_db_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     expose:
       - "5432"
     healthcheck:
@@ -45,12 +59,3 @@ services:
       - "traefik.http.services.mattermost.loadbalancer.server.port=8065"
       - "traefik.docker.network=ogna"
       - "traefik.http.routers.mattermost.tls.certresolver=hetzner"
-
-networks:
-  mattermost_net:
-  ogna:
-    external: true
-
-volumes:
-  mattermost_db_data:
-  mattermost_app_data:
